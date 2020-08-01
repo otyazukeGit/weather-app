@@ -1,8 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import superagent from 'superagent'
+import {APIKeys} from './apiKeyInfo'
+// import superagent-no-cache from 'superagent-no-cache'
 
-//Grid linesで書ける？
 const Container = styled.div`
 	display: flex;
 	width: 80vw;
@@ -24,7 +25,7 @@ const getWheatherInfo = async () => {
 		.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})
 		// .use(nocache)  // Prevents caching of *only* this request. Need require('superagent-no-cache');
 		.set('x-rapidapi-host', 'weatherbit-v1-mashape.p.rapidapi.com')
-		.set('x-rapidapi-key', '[My API Key]')
+		.set('x-rapidapi-key', APIKeys.Wheather)
 		.set('useQueryString', "true")
 		.end((err, res) => {
 			if (res.error) console.log('res.error: ', res.error);
