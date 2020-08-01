@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import superagent from 'superagent'
 
 //Grid linesで書ける？
 const Container = styled.div`
@@ -15,6 +16,22 @@ const Wheather = styled.p`
 const Box = styled.span`
 	line-height:80px;
 `
+
+const getWheatherInfo = async () => {
+	console.log('getWheatherInfo');
+	const result = await superagent
+		.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily')
+		.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})
+		// .use(nocache)  // Prevents caching of *only* this request. Need require('superagent-no-cache');
+		.set('x-rapidapi-host', 'weatherbit-v1-mashape.p.rapidapi.com')
+		.set('x-rapidapi-key', '[My API Key]')
+		.set('useQueryString', "true")
+		.end((err, res) => {
+			if (res.error) console.log('res.error: ', res.error);
+			console.log(res.body);
+	});
+}
+getWheatherInfo()
 
 export const WheatherWeek = () => {
 	return (
