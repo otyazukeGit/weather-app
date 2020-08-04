@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import superagent from 'superagent'
 import {APIKeys} from './apiKeyInfo'
-// import superagent-no-cache from 'superagent-no-cache'
+import {getForecast} from './Weather'
 
 const Container = styled.div`
 	display: flex;
@@ -22,7 +22,6 @@ const Box = styled.span`
 	line-height:80px;
 `
 
-
 export const WeatherWeek = () => {
 	const [sunday, setSunday] = useState('0')
 	const getWeatherInfo = async () => {
@@ -30,15 +29,15 @@ export const WeatherWeek = () => {
 		const result = await superagent
 			.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily')
 			.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})
-			// .use(nocache)  // Prevents caching of *only* this request. Need require('superagent-no-cache');
 			.set('x-rapidapi-host', 'weatherbit-v1-mashape.p.rapidapi.com')
 			.set('x-rapidapi-key', APIKeys.Weather)
 			.set('useQueryString', "true")
 			.end((err, res) => {
 				if (res.error) console.log('res.error: ', res.error)
-				console.log(res.body)
+				console.log('res.body: ', res.body)
 				const firstday = res.body.data[0]
-				setSunday(firstday['weather'].code)
+				const forecast = getForecast(firstday['weather'].code)
+				setSunday(forecast)
 			})
 	}
 	
