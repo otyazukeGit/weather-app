@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {WheatherWeek} from './WheatherWeek'
+import {WeatherWeek} from './WeatherWeek'
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
         </p>
       </header>
 		<main>
-			<WheatherWeek/>
+			<WeatherWeek/>
 		</main>
     </div>
   );

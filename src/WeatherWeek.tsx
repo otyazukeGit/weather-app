@@ -13,7 +13,7 @@ const Button = styled.button`
 	border:solid 1px black;
 	font: orange;
 `
-const Wheather = styled.p`
+const Weather = styled.p`
 	border: solid 1px black;
 	flex: 1;
 	height: 80px;
@@ -23,16 +23,16 @@ const Box = styled.span`
 `
 
 
-export const WheatherWeek = () => {
+export const WeatherWeek = () => {
 	const [sunday, setSunday] = useState('0')
-	const getWheatherInfo = async () => {
-		console.log('getWheatherInfo');
+	const getWeatherInfo = async () => {
+		console.log('getWeatherInfo');
 		const result = await superagent
 			.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily')
 			.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})
 			// .use(nocache)  // Prevents caching of *only* this request. Need require('superagent-no-cache');
 			.set('x-rapidapi-host', 'weatherbit-v1-mashape.p.rapidapi.com')
-			.set('x-rapidapi-key', APIKeys.Wheather)
+			.set('x-rapidapi-key', APIKeys.Weather)
 			.set('useQueryString', "true")
 			.end((err, res) => {
 				if (res.error) console.log('res.error: ', res.error)
@@ -44,15 +44,15 @@ export const WheatherWeek = () => {
 	
 	return (
 		<div>
-			<Button onClick={getWheatherInfo}>天気情報</Button>
+			<Button onClick={getWeatherInfo}>天気情報</Button>
 			<Container>
-			<Wheather className="monday"><Box>{sunday}</Box></Wheather>
-				<Wheather className="tuesday"><Box><Box>雨</Box></Box></Wheather>
-				<Wheather className="wednesday"><Box>曇り</Box></Wheather>
-				<Wheather className="thursday"><Box>晴れ</Box></Wheather>
-				<Wheather className="friday"><Box>雨</Box></Wheather>
-				<Wheather className="sataday"><Box><Box>曇り</Box></Box></Wheather>
-				<Wheather className="sunday"><Box><Box>晴れ</Box></Box></Wheather>
+			<Weather className="monday"><Box>{sunday}</Box></Weather>
+				<Weather className="tuesday"><Box><Box>雨</Box></Box></Weather>
+				<Weather className="wednesday"><Box>曇り</Box></Weather>
+				<Weather className="thursday"><Box>晴れ</Box></Weather>
+				<Weather className="friday"><Box>雨</Box></Weather>
+				<Weather className="sataday"><Box><Box>曇り</Box></Box></Weather>
+				<Weather className="sunday"><Box><Box>晴れ</Box></Box></Weather>
 			</Container>
 		</div>
 	)
