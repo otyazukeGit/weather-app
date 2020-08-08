@@ -12,15 +12,6 @@ export type PropsWeatherDay = {
 	icon: string
 }
 
-
-// const getWeatherIconImg = async (icon: string) => {
-// 	const result = await superagent
-// 	.get('https://www.weatherbit.io/static/img/icons/')
-// 	.end((err, res) => {
-// 	}
-
-// }
-
 const getIconURL = (icon: string) :string => {
 	return 'https://www.weatherbit.io/static/img/icons/' + icon + '.png'
 }
