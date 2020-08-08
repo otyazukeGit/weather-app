@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import superagent from 'superagent'
 import {APIKeys} from './apiKeyInfo'
-import {getForecast} from './Weather'
+import {WeatherDay, PropsWeatherDay} from './WeatherDay'
 
 const Container = styled.div`
 	display: flex;
@@ -13,17 +13,15 @@ const Button = styled.button`
 	border:solid 1px black;
 	font: orange;
 `
-const Weather = styled.p`
-	border: solid 1px black;
-	flex: 1;
-	height: 80px;
-`
-const Box = styled.span`
-	line-height:80px;
-`
 
 export const WeatherWeek = () => {
-	const [sunday, setSunday] = useState('0')
+	const initialWeather = {'day':7, 'datetime':'-', 'weather':'-', 'icon': '-'}
+	const [forecasts, setForecasts] = useState<PropsWeatherDay[]>(
+		Array.from(
+			{length: 7}, (_,i) => initialWeather
+		)
+	)
+
 	const getWeatherInfo = async () => {
 		console.log('getWeatherInfo');
 		const result = await superagent
@@ -35,9 +33,21 @@ export const WeatherWeek = () => {
 			.end((err, res) => {
 				if (res.error) console.log('res.error: ', res.error)
 				console.log('res.body: ', res.body)
-				const firstday = res.body.data[0]
-				const forecast = getForecast(firstday['weather'].code)
-				setSunday(forecast)
+				let forecastWeek = []
+				for (let i=0; i<7; i++){
+					let forecastDay = res.body.data[i]
+					let day = new Date(forecastDay['datetime'])
+					let splits = forecastDay['datetime'].split('-')
+					let datetime = splits[1] + '/' + splits[2]
+					let forecast = {
+						'day':day.getDay(), 
+						'datetime':datetime, 
+						'weather':forecastDay['weather'].code,
+						'icon':forecastDay['weather'].icon,
+					}
+					forecastWeek.push(forecast)
+				}
+				setForecasts(forecastWeek)
 			})
 	}
 	
@@ -45,13 +55,15 @@ export const WeatherWeek = () => {
 		<div>
 			<Button onClick={getWeatherInfo}>天気情報</Button>
 			<Container>
-			<Weather className="monday"><Box>{sunday}</Box></Weather>
-				<Weather className="tuesday"><Box><Box>雨</Box></Box></Weather>
-				<Weather className="wednesday"><Box>曇り</Box></Weather>
-				<Weather className="thursday"><Box>晴れ</Box></Weather>
-				<Weather className="friday"><Box>雨</Box></Weather>
-				<Weather className="sataday"><Box><Box>曇り</Box></Box></Weather>
-				<Weather className="sunday"><Box><Box>晴れ</Box></Box></Weather>
+				{forecasts.map((forecast, index) => (
+					<WeatherDay 
+						key={index} 
+						day={forecast.day} 
+						datetime={forecast.datetime} 
+						weather={forecast.weather} 
+						icon={forecast.icon}
+						  />
+				))}
 			</Container>
 		</div>
 	)
