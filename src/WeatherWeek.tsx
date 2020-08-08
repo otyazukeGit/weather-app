@@ -12,6 +12,7 @@ const Container = styled.div`
 const Button = styled.button`
 	border:solid 1px black;
 	font: orange;
+	margin-bottom: 20px;
 `
 
 export const WeatherWeek = () => {

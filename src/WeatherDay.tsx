@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import {getForecast} from './Weather'
+import superagent from 'superagent'
+
+const weatherOrder: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', '-']
 
 export type PropsWeatherDay = {
 	day: number,
@@ -9,7 +12,18 @@ export type PropsWeatherDay = {
 	icon: string
 }
 
-const weatherOrder: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', '-']
+
+// const getWeatherIconImg = async (icon: string) => {
+// 	const result = await superagent
+// 	.get('https://www.weatherbit.io/static/img/icons/')
+// 	.end((err, res) => {
+// 	}
+
+// }
+
+const getIconURL = (icon: string) :string => {
+	return 'https://www.weatherbit.io/static/img/icons/' + icon + '.png'
+}
 
 export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
 	console.log('props: ', props);
@@ -19,7 +33,7 @@ export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
 				<Box>{weatherOrder[props.day]}</Box>
 				<Box>{props.datetime}</Box>
 				<Box>{getForecast(props.weather)}</Box>
-				<Box>{props.icon}</Box>
+				<Box><IconImage src={getIconURL(props.icon)} alt={getForecast(props.weather)} /></Box>
 			</Container>
 		</div>
 	)
@@ -34,6 +48,11 @@ const Container = styled.div`
 const Box = styled.div`
 border:solid 1px black;
 `
+const IconImage = styled.img`
+	width: 80px;
+	margin: 0 auto;
+`
+
 // const Day = styled.div`
 // 	border:solid 1px black;
 // `
