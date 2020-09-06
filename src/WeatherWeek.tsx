@@ -23,7 +23,7 @@ export const WeatherWeek = () => {
 			.set('useQueryString', "true")
 			.end((err, res) => {
 				if (res.error) console.log('res.error: ', res.error)
-				console.log('res.body: ', res.body)
+				// console.log('res.body: ', res.body)
 				const forecastWeek = []
 				for (let i=0; i<7; i++){
 					const forecastDay = res.body.data[i]
@@ -49,7 +49,7 @@ export const WeatherWeek = () => {
 	return (
 		<div>
 			<Button onClick={getWeatherInfo}>天気情報</Button>
-			<Container visibleWeek={visibleWeek}>
+			<Container data-testid='weatherDays' visibleWeek={visibleWeek}>
 				{forecasts.map((forecast, index) => (
 					<WeatherDay 
 						key={index} 
