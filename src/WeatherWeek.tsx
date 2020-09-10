@@ -1,17 +1,18 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import superagent from 'superagent'
 import {APIKeys} from './apiKeyInfo'
-import {WeatherDay, PropsWeatherDay} from './WeatherDay'
+import {WeatherDay} from './WeatherDay'
+import {forecastType} from './initialState'
+import {setForecasts, setForecastsType} from './actions'
 
+type Props = {
+	forecasts:forecastType,
+	visibleWeek:boolean,
+	dispatch:React.Dispatch<setForecastsType>
+}
 
-export const WeatherWeek = () => {
-	const initialWeather = {'day':7, 'datetime':'-', 'weather':'-', 'icon': '-'}
-	const [forecasts, setForecasts] = useState<PropsWeatherDay[]>(
-		Array.from(
-			{length: 7}, (_,i) => initialWeather
-		)
-	)
+export const WeatherWeek:React.FC<Props> = (props) => {
 
 	const getWeatherInfo = async () => {
 		console.log('getWeatherInfo');
@@ -31,26 +32,24 @@ export const WeatherWeek = () => {
 					const splits = forecastDay['datetime'].split('-')
 					const datetime = splits[1] + '/' + splits[2]
 					const forecast = {
-						'day':day.getDay(), 
-						'datetime':datetime, 
-						'weather':forecastDay['weather'].code,
-						'icon':forecastDay['weather'].icon,
+						day:day.getDay(), 
+						datetime:datetime, 
+						weather:forecastDay['weather'].code,
+						icon:forecastDay['weather'].icon,
 					}
 					forecastWeek.push(forecast)
-					setVisibleWeek(true)
 				}
-				setForecasts(forecastWeek)
+				props.dispatch(setForecasts(forecastWeek, true))
 			})
 	}
 
-	const [visibleWeek, setVisibleWeek] = useState<boolean>(false)
-	console.log('visibleWeek: ', visibleWeek);
+	console.log('visibleWeek: ', props.visibleWeek);
 	
 	return (
 		<div>
 			<Button onClick={getWeatherInfo}>天気情報</Button>
-			<Container data-testid='weatherDays' visibleWeek={visibleWeek}>
-				{forecasts.map((forecast, index) => (
+			<Container data-testid='weatherDays' visibleWeek={props.visibleWeek}>
+				{props.forecasts.map((forecast, index) => (
 					<WeatherDay 
 						key={index} 
 						day={forecast.day} 

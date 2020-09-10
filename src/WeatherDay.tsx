@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import {getForecast} from './Weather'
-import superagent from 'superagent'
 
 const weatherOrder: string[] = ['Sun', 'Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', '-']
 
@@ -17,7 +16,7 @@ const getIconURL = (icon: string) :string => {
 }
 
 export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
-	console.log('props: ', props);
+	// console.log('props: ', props);
 	return (
 		<div>
 			<Container>

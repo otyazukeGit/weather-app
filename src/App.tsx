@@ -2,8 +2,13 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import {WeatherWeek} from './WeatherWeek'
+import {reducer} from './reducer'
+import {initialState} from './initialState'
 
 function App() {
+
+	const [state, dispatch] = React.useReducer(reducer, initialState)
+
   return (
     <div className="App">
       <header className="App-header">
@@ -13,7 +18,11 @@ function App() {
         </p>
       </header>
 		<main>
-			<WeatherWeek/>
+			<WeatherWeek 
+				forecasts={state.forecasts}
+				visibleWeek={state.visibleWeek}
+				dispatch={dispatch}
+			/>
 		</main>
     </div>
   );
