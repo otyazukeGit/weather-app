@@ -65,6 +65,7 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 
 const Container = styled.div<{ visibleWeek: boolean}>`
 	display: ${props => ( props.visibleWeek ? 'flex' : 'none!important' )};
+	justify-content:center;
 	width: 80vw;
 	margin: 0 auto;
 `
