@@ -1,20 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import superagent from 'superagent'
 import {APIKeys} from './apiKeyInfo'
 import {WeatherDay} from './WeatherDay'
-import {forecastType} from './initialState'
-import {setForecasts, setForecastsType} from './actions'
+import {forecastType, showPreviousType} from './initialState'
+import {setForecasts, setForecastsType, setShowPrevious, setShowPreviousType} from './actions'
 
 type Props = {
 	forecasts:forecastType,
 	visibleWeek:boolean,
-	dispatch:React.Dispatch<setForecastsType>
+	showPrevious:showPreviousType,
+	previousForcast:forecastType,
+	dispatch:React.Dispatch<setForecastsType | setShowPreviousType>
 }
 
 /**
- * Date??YYYYMMDD????????
- * @param dist  ...?????????
+ * DateをYYYYMMDD形式で取得
+ * @param dist  ...本日から何日前か
  */
 const getJustDate = (dist:number = 0):string => {
 	const date = new Date() //now
@@ -30,16 +32,17 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 	const getWeatherInfo = async () => {
 		console.log('getWeatherInfo');
 
-		// localStorage.setItem('forecastDate', getJustDate(0))
-		localStorage.setItem('forecastDate', '20200931')    /////////
+		// localStorage.setItem('forecastDate', getJustDate(0))   // actual code.
+		localStorage.setItem('forecastDate', '20200931')    // set the past date to show previous forecast on testing.
 
-		const result = await superagent
+		await superagent
 			.get('https://weatherbit-v1-mashape.p.rapidapi.com/forecast/daily')
-			.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})
+			.query({ "lang": "en", "lat": "35.681236", "lon": "139.767125"})  // Tokyo Station
 			.set('x-rapidapi-host', 'weatherbit-v1-mashape.p.rapidapi.com')
 			.set('x-rapidapi-key', APIKeys.Weather)
 			.set('useQueryString', "true")
 			.end((err, res) => {
+				if(err) return
 				if (res.error) console.log('res.error: ', res.error)
 				// console.log('res.body: ', res.body)
 				const forecastWeek = []
@@ -60,30 +63,44 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 
 				console.log('forecastWeek: ', forecastWeek);
 				props.dispatch(setForecasts(forecastWeek, true))
-		})
+			})
 	}
 
-	console.log('visibleWeek: ', props.visibleWeek);
-	
-	const previousForcastLS = []
-	const previousForcast = []
-	const previousDate:string | null = localStorage.getItem('forecastDate')
-	let showPrevious:boolean = false
-	if(previousDate){
-		for (let i=0; i<7; i++){
-			previousForcastLS[i] = localStorage.getItem('forecastWeek' + [i])
-			if(previousForcastLS[i] && previousForcastLS[i] != null){
-				previousForcast.push(JSON.parse(previousForcastLS[i] || "{}"))
+	// useEffect() will run after maded DOM.
+	// To check existing previous forecast result and get.
+	useEffect(
+		() => {
+			console.log('useEffect()');
+			const previousDate:string | null = localStorage.getItem('forecastDate')
+			console.log('previousDate: ', previousDate);
+			if(previousDate){
+				const previousForcastTemp:forecastType = []
+				const previousForcastLS:string[] | null[] = []
+				for (let i=0; i<7; i++){
+					previousForcastLS[i] = localStorage.getItem('forecastWeek' + [i])
+					if(previousForcastLS[i] && previousForcastLS[i] != null){
+						previousForcastTemp.push(JSON.parse(previousForcastLS[i] || "{}"))
+					}
+				}
+				props.dispatch(
+					setShowPrevious(
+						Number(previousDate) <= Number(getJustDate(1)) ? true : false,
+						previousForcastTemp
+				))
+			}else {
+				props.dispatch(setShowPrevious(false, []))
 			}
-		}
-		showPrevious = Number(previousDate) <= Number(getJustDate(1)) ? true : false
-	}else {
-		showPrevious = false
-	}
+		// eslint-disable-next-line
+		}, []
+	)
+
+	console.log('visibleWeek: ', props.visibleWeek);	
+	console.log('previousForcast: ', props.previousForcast);
+	console.log('previousForcast.length: ', props.previousForcast.length);
 
 	return (
 		<Area>
-			<Button onClick={getWeatherInfo}>天気情報</Button>
+			<Button onClick={getWeatherInfo}>週間天気</Button>
 			{props.visibleWeek ? <h3>Weekly Weather Forecast </h3> : ""}
 			<Container data-testid='weatherDays' visibleWeek={props.visibleWeek}>
 				{props.forecasts.map((forecast, index) => (
@@ -93,21 +110,24 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 						datetime={forecast.datetime} 
 						weather={forecast.weather} 
 						icon={forecast.icon}
-						  />
+					/>
 				))}
 			</Container>
 			<h3>Previous Result</h3>
 			<div>(more than a day ago)</div>
-			<Container visibleWeek={showPrevious}>
-				{previousForcast.map((forecast, index) => (
-					<WeatherDay 
-						key={index} 
-						day={forecast.day} 
-						datetime={forecast.datetime} 
-						weather={forecast.weather} 
-						icon={forecast.icon}
-						  />
-				))}
+			<Container visibleWeek={props.showPrevious}>
+				{props.previousForcast.length > 1
+					? props.previousForcast.map((forecast, index) => (
+						<WeatherDay 
+							key={index} 
+							day={forecast.day} 
+							datetime={forecast.datetime} 
+							weather={forecast.weather} 
+							icon={forecast.icon}
+							/>
+						))
+					: <div></div>
+				}
 			</Container>
 		</Area>
 	)
@@ -128,7 +148,6 @@ const Container = styled.div<{ visibleWeek: boolean}>`
 const Button = styled.button`
 	/* margin-bottom: 0 auto 20px; */
 	border:solid 1px black;
-	/* width:40px; */
 	font: orange;
 `
 

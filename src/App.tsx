@@ -14,6 +14,7 @@ import {
  } from "react-router-dom"
 
 function App() {
+	// console.log('App()');
 
 	const Nav = styled.nav`
 		display:flex;
@@ -26,13 +27,13 @@ function App() {
 
 	const [state, dispatch] = React.useReducer(reducer, initialState)
 
-  return (
+	return (
 	<div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p id="title">
-          週間天気
-        </p>
+			<img src={logo} className="App-logo" alt="logo" />
+			<p id="title">
+				週間天気
+			</p>
       </header>
 		<main>
 			<Router>
@@ -46,6 +47,8 @@ function App() {
 						<WeatherWeek 
 							forecasts={state.forecasts}
 							visibleWeek={state.visibleWeek}
+							showPrevious={state.showPrevious}
+							previousForcast={state.previousForcast}
 							dispatch={dispatch}
 						/>
 					</Route>

@@ -9,7 +9,7 @@ export const About = () => {
 				<summary>使用API</summary>
 				<h3>Rakuten Rapid API - Weather</h3>
 				<div>現在の天気データAPI、および天気予報API - Weatherbit.io Weather APIへの基本的なアクセス。</div>
-				<a href="https://api.rakuten.net/weatherbit/api/weather" target="_blank">https://api.rakuten.net/weatherbit/api/weather</a>
+				<a href="https://api.rakuten.net/weatherbit/api/weather" target="_blank" rel="noopener noreferrer">https://api.rakuten.net/weatherbit/api/weather</a>
 			</details>
 		</div>
 	)

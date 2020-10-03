@@ -1,9 +1,13 @@
 export type forecastType = {day:number, datetime:string, weather:string, icon:string}[]
 export type visibleWeekType = boolean
+export type showPreviousType = boolean
 
 export type initialStateType = {
 	forecasts:forecastType,
-	visibleWeek:visibleWeekType
+	visibleWeek:visibleWeekType,
+	showPrevious:showPreviousType,
+	previousForcast:forecastType
+
 }
 
 export const initialState:initialStateType = {
@@ -16,5 +20,7 @@ export const initialState:initialStateType = {
 		{day:7, datetime:'-', weather:'-', icon: '-'},
 		{day:7, datetime:'-', weather:'-', icon: '-'},
 	],
-	visibleWeek: false
+	visibleWeek: false,
+	showPrevious: false,
+	previousForcast: []
 }
