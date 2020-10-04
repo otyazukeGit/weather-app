@@ -8,6 +8,8 @@ export type PropsWeatherDay = {
 	day: number,
 	datetime: string,
 	weather: string,
+	highTemp: number,
+	lowTemp: number,
 	icon: string
 }
 
@@ -25,6 +27,8 @@ export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
 				<Box>{weatherOrder[props.day]}</Box>
 				<Box>{props.datetime}</Box>
 				<Box>{getForecast(props.weather)}</Box>
+				<Box>{"High: " + props.highTemp + "°C"}</Box>
+				<Box>{"Low: " + props.lowTemp + "°C"}</Box>
 				<Box>
 					<IconImage 
 						src={getIconURL(props.icon)} 

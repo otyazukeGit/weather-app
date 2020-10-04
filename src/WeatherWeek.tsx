@@ -44,7 +44,7 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 			.end((err, res) => {
 				if(err) return
 				if (res.error) console.log('res.error: ', res.error)
-				// console.log('res.body: ', res.body)
+				console.log('res.body: ', res.body)
 				const forecastWeek = []
 				for (let i=0; i<7; i++){
 					const forecastDay = res.body.data[i]
@@ -55,6 +55,8 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 						day:day.getDay(), 
 						datetime:datetime, 
 						weather:forecastDay['weather'].code,
+						highTemp:forecastDay['high_temp'],
+						lowTemp:forecastDay['low_temp'],
 						icon:forecastDay['weather'].icon,
 					}
 					forecastWeek.push(forecast)
@@ -107,8 +109,10 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 					<WeatherDay 
 						key={index} 
 						day={forecast.day} 
-						datetime={forecast.datetime} 
+						datetime={forecast.datetime}
 						weather={forecast.weather} 
+						highTemp={forecast.highTemp}
+						lowTemp={forecast.lowTemp}
 						icon={forecast.icon}
 					/>
 				))}
@@ -123,9 +127,11 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 							day={forecast.day} 
 							datetime={forecast.datetime} 
 							weather={forecast.weather} 
+							highTemp={forecast.highTemp}
+							lowTemp={forecast.lowTemp}
 							icon={forecast.icon}
-							/>
-						))
+						/>
+					))
 					: <div></div>
 				}
 			</Container>
