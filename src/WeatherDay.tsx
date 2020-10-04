@@ -12,9 +12,9 @@ export type PropsWeatherDay = {
 }
 
 const getIconURL = (icon: string) :string => {
-	return icon == '' 
-		? ''
-		: 'https://www.weatherbit.io/static/img/icons/' + icon + '.png'
+	return icon === ''
+	? ''
+	: 'https://www.weatherbit.io/static/img/icons/' + icon + '.png'
 }
 
 export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
@@ -29,6 +29,7 @@ export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
 					<IconImage 
 						src={getIconURL(props.icon)} 
 						alt={getForecast(props.weather)}
+						onLoad={(e: React.ChangeEvent<HTMLImageElement>) => e.target.style.display = 'block'}
 						onError={(e: React.ChangeEvent<HTMLImageElement>) => e.target.style.display = 'none'}
 					/>
 				</Box>
