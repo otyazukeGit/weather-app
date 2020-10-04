@@ -12,13 +12,13 @@ export type initialStateType = {
 
 export const initialState:initialStateType = {
 	forecasts: [
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
-		{day:7, datetime:'-', weather:'-', icon: '-'},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
+		{day:7, datetime:'-', weather:'-', icon: ''},
 	],
 	visibleWeek: false,
 	showPrevious: false,
