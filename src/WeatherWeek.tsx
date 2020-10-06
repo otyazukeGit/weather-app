@@ -102,7 +102,7 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 
 	return (
 		<Area>
-			<Button onClick={getWeatherInfo}>週間天気</Button>
+			<Button onClick={getWeatherInfo}>Show Today</Button>
 			{props.visibleWeek ? <h3>Weekly Weather Forecast </h3> : ""}
 			<Container data-testid='weatherDays' visibleWeek={props.visibleWeek}>
 				{props.forecasts.map((forecast, index) => (

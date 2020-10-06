@@ -32,7 +32,7 @@ function App() {
       <header className="App-header">
 			<img src={logo} className="App-logo" alt="logo" />
 			<p id="title">
-				週間天気
+				Week Weather in Tokyo
 			</p>
       </header>
 		<main>
