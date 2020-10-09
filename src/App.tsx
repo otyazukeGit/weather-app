@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components'
-import logo from './logo.svg';
 import './App.css';
 import {About} from './About'
 import {WeatherWeek} from './WeatherWeek'
@@ -16,24 +15,14 @@ import {
 function App() {
 	// console.log('App()');
 
-	const Nav = styled.nav`
-		display:flex;
-		justify-content:center;
-		margin-bottom: 10px;
-		& a {
-			margin-right: 10px;
-		}
-	`
-
 	const [state, dispatch] = React.useReducer(reducer, initialState)
 
 	return (
 	<div className="App">
       <header className="App-header">
-			<img src={logo} className="App-logo" alt="logo" />
-			<p id="title">
-				Week Weather in Tokyo
-			</p>
+			<Title>
+				Weekly Weather on Tokyo Station
+			</Title>
       </header>
 		<main>
 			<Router>
@@ -61,5 +50,33 @@ function App() {
     </div>
   );
 }
+
+const Title = styled.div`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	&::before,::after {
+		content: '';
+		width: 100px;
+		height: 2px;
+		background-color: white;
+	}
+	&::before {
+		margin-right: 10px;
+	}
+	&::after {
+		margin-left: 10px;
+	}
+`
+
+const Nav = styled.nav`
+	display:flex;
+	justify-content:center;
+	margin-top: 10px;
+	padding-bottom: 10px;
+	& a {
+		margin-right: 10px;
+	}
+`
 
 export default App;

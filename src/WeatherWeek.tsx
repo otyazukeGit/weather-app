@@ -51,12 +51,15 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 					const day = new Date(forecastDay['datetime'])
 					const splits = forecastDay['datetime'].split('-')
 					const datetime = splits[1] + '/' + splits[2]
+					const highTemp = forecastDay['high_temp'] % 1 !== 0 ? forecastDay['high_temp'] : forecastDay['high_temp'] + ".0" 
+					const lowTemp = forecastDay['low_temp'] % 1 !== 0 ? forecastDay['low_temp'] : forecastDay['low_temp'] + ".0" 
+
 					const forecast = {
 						day:day.getDay(), 
 						datetime:datetime, 
 						weather:forecastDay['weather'].code,
-						highTemp:forecastDay['high_temp'],
-						lowTemp:forecastDay['low_temp'],
+						highTemp:highTemp,
+						lowTemp:lowTemp,
 						icon:forecastDay['weather'].icon,
 					}
 					forecastWeek.push(forecast)
@@ -103,46 +106,61 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 	return (
 		<Area>
 			<Button onClick={getWeatherInfo}>Show Today</Button>
-			{props.visibleWeek ? <h3>Weekly Weather Forecast </h3> : ""}
-			<Container data-testid='weatherDays' visibleWeek={props.visibleWeek}>
-				{props.forecasts.map((forecast, index) => (
-					<WeatherDay 
-						key={index} 
-						day={forecast.day} 
-						datetime={forecast.datetime}
-						weather={forecast.weather} 
-						highTemp={forecast.highTemp}
-						lowTemp={forecast.lowTemp}
-						icon={forecast.icon}
-					/>
-				))}
-			</Container>
-			<h3>Previous Result</h3>
-			<div>(more than a day ago)</div>
-			<Container visibleWeek={props.showPrevious}>
-				{props.previousForcast.length > 1
-					? props.previousForcast.map((forecast, index) => (
+			<Forecast>
+				{props.visibleWeek ? <Label>Weekly Weather Forecast </Label> : ""}
+				<Container data-testid='weatherDays' visibleWeek={props.visibleWeek}>
+					{props.forecasts.map((forecast, index) => (
 						<WeatherDay 
 							key={index} 
 							day={forecast.day} 
-							datetime={forecast.datetime} 
+							datetime={forecast.datetime}
 							weather={forecast.weather} 
 							highTemp={forecast.highTemp}
 							lowTemp={forecast.lowTemp}
 							icon={forecast.icon}
 						/>
-					))
-					: <div></div>
-				}
-			</Container>
+					))}
+				</Container>
+			</Forecast>
+			<Forecast>
+				<Label>Previous Result</Label>
+				<div>(more than a day ago)</div>
+				<Container visibleWeek={props.showPrevious}>
+					{props.previousForcast.length > 1
+						? props.previousForcast.map((forecast, index) => (
+							<WeatherDay 
+								key={index} 
+								day={forecast.day} 
+								datetime={forecast.datetime} 
+								weather={forecast.weather} 
+								highTemp={forecast.highTemp}
+								lowTemp={forecast.lowTemp}
+								icon={forecast.icon}
+							/>
+						))
+						: <div></div>
+					}
+				</Container>
+			</Forecast>
 		</Area>
 	)
 }
+
+const Label = styled.h3`
+	min-width:10%;
+	background-color: #C5E6F7;
+`
 
 const Area = styled.div`
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+`
+
+const Forecast = styled.div`
+	width: 80%80%;
+	background-color: skyblue;
+	border-radius: 3px;
 `
 
 const Container = styled.div<{ visibleWeek: boolean}>`
@@ -155,5 +173,7 @@ const Button = styled.button`
 	/* margin-bottom: 0 auto 20px; */
 	border:solid 1px black;
 	font: orange;
+	padding: 5px;
+	border-radius: 5%;
 `
 

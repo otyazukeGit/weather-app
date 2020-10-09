@@ -27,8 +27,8 @@ export const WeatherDay:React.FC<PropsWeatherDay> = (props:PropsWeatherDay) => {
 				<Box>{weatherOrder[props.day]}</Box>
 				<Box>{props.datetime}</Box>
 				<Box>{getForecast(props.weather)}</Box>
-				<Box>{"High: " + props.highTemp + "°C"}</Box>
-				<Box>{"Low: " + props.lowTemp + "°C"}</Box>
+				<Box2>{"High: " + props.highTemp + "°C"}</Box2>
+				<Box2>{"Low: " + props.lowTemp + "°C"}</Box2>
 				<Box>
 					<IconImage 
 						src={getIconURL(props.icon)} 
@@ -49,19 +49,15 @@ const Container = styled.div`
 	margin: 0 auto;
 `
 const Box = styled.div`
-border:solid 1px black;
+	border:solid 1px black;
+	background-color: white;
+`
+const Box2 = styled.div`
+	border:solid 1px black;
+	background-color: white;
+	height: 40px;
 `
 const IconImage = styled.img`
 	width: 80px;
 	margin: 0 auto;
 `
-
-// const Day = styled.div`
-// 	border:solid 1px black;
-// `
-// const Datetime = styled.div`
-// 	border:solid 1px black;
-// `
-// const Weather = styled.div`
-// 	border:solid 1px black;
-// `
