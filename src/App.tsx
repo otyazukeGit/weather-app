@@ -59,7 +59,7 @@ const Title = styled.div`
 		content: '';
 		width: 100px;
 		height: 2px;
-		background-color: white;
+		background-color: #111;
 	}
 	&::before {
 		margin-right: 10px;

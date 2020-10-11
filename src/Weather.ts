@@ -1,4 +1,4 @@
-type forecastType = '嵐' | '霧雨' | '雨' | '雪' | 'ガス' | '晴れ' | '曇り' | '豪雨' | '-'
+type forecastType = '嵐' | '霧雨' | '雨' | '雪' | 'ガス' | '晴れ' | '曇り' | '豪雨' | 'ー'
 
 export const getForecast = (weatherCode:string):forecastType => {
 	const code = Number(weatherCode)
@@ -19,7 +19,7 @@ export const getForecast = (weatherCode:string):forecastType => {
 	} else if (900 === code) {
 		return '豪雨'
 	} else {
-		return '-'
+		return 'ー'
 	}
 
 }

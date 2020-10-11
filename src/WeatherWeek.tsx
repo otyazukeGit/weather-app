@@ -66,7 +66,7 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 					localStorage.setItem('forecastWeek'+[i], JSON.stringify(forecast))
 				}
 
-				console.log('forecastWeek: ', forecastWeek);
+				// console.log('forecastWeek: ', forecastWeek);
 				props.dispatch(setForecasts(forecastWeek, true))
 			})
 	}
@@ -77,7 +77,7 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 		() => {
 			console.log('useEffect()');
 			const previousDate:string | null = localStorage.getItem('forecastDate')
-			console.log('previousDate: ', previousDate);
+			// console.log('previousDate: ', previousDate);
 			if(previousDate){
 				const previousForcastTemp:forecastType = []
 				const previousForcastLS:string[] | null[] = []
@@ -99,9 +99,8 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 		}, []
 	)
 
-	console.log('visibleWeek: ', props.visibleWeek);	
+	// console.log('visibleWeek: ', props.visibleWeek);
 	console.log('previousForcast: ', props.previousForcast);
-	console.log('previousForcast.length: ', props.previousForcast.length);
 
 	return (
 		<Area>
@@ -121,8 +120,6 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 						/>
 					))}
 				</Container>
-			</Forecast>
-			<Forecast>
 				<Label>Previous Result</Label>
 				<div>(more than a day ago)</div>
 				<Container visibleWeek={props.showPrevious}>
@@ -146,11 +143,6 @@ export const WeatherWeek:React.FC<Props> = (props) => {
 	)
 }
 
-const Label = styled.h3`
-	min-width:10%;
-	background-color: #C5E6F7;
-`
-
 const Area = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -158,10 +150,31 @@ const Area = styled.div`
 `
 
 const Forecast = styled.div`
-	width: 80%80%;
-	background-color: skyblue;
+	width: 80%;
+	background: linear-gradient(skyblue, pink);
 	border-radius: 3px;
+	/* & h3:nth-child(odd){
+		background-color: #C5E6F7;
+	}
+	& h3:nth-child(even){
+		background-color: #ffc0cb;
+	} */
 `
+
+const Label = styled.h3`
+	min-width:10%;
+	background-color: #C5E6F7;
+`
+
+// const LabelToday = styled.h3`
+// 	min-width:10%;
+// 	background-color: #C5E6F7;
+// `
+
+// const LabelPrevious = styled.h3`
+// 	min-width:10%;
+// 	background-color: #ffc0cb;
+// `
 
 const Container = styled.div<{ visibleWeek: boolean}>`
 	display: ${props => ( props.visibleWeek ? 'flex' : 'none!important' )};
@@ -170,7 +183,7 @@ const Container = styled.div<{ visibleWeek: boolean}>`
 	margin: 1em auto 0;
 `
 const Button = styled.button`
-	/* margin-bottom: 0 auto 20px; */
+	margin: 0px auto 10px;
 	border:solid 1px black;
 	font: orange;
 	padding: 5px;
