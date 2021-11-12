@@ -1,4 +1,35 @@
+# Weather App
+
+To obtain and display weekly weather forecast information.
+The weather forecast acquired the day before is also retained and displayed.
+
+<img width="652" alt="weatherAppImage" src="https://user-images.githubusercontent.com/31443408/141422379-1714c6b3-f527-47b5-93e8-2456c4c64158.png">
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+## How to run
+
+* npm run start
+
+## Function Summary
+
+* Get the weekly weather forecast by Rakuten API (required the API Key).
+* Store the forecast data to localstorage and show if it exists.
+
+## Technologies
+
+- React 16.13.1
+- React scripts 3.4.1
+- TypeScript 3.8.1
+- Firebase 8.0.1
+- Styled components 5.1.1
+- superagent 5.3.1
+
+## Author
+
+[otyazukeGit](https://github.com/otyazukeGit)
+
+---
 
 ## Available Scripts
 
